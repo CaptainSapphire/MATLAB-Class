@@ -1,0 +1,214 @@
+%% ENGR R148 — Week 3 Homework: MATLAB Built-In Functions
+% Name: Priya Harry
+% Date: August 26, 2026
+%
+% Complete every section in this file. Use meaningful variable names,
+% comments, and units. Save your completed script as
+% Lastname_Firstname_Week3_HW.m and submit that .m file in Canvas.
+
+%% Problem 1 — Help and built-in functions (5 points)
+% Use help or doc to investigate the sqrt function.
+% In a comment below, write one sentence explaining what sqrt does.
+%
+% Your comment:
+% The sqrt function returns the square root of each element in an array or numeric scalar.
+
+% Use sqrt to calculate the length of the hypotenuse of a right triangle
+% with legs of 9 m and 12 m. Display the answer with units.
+
+% Your code:
+leg_a_m = 9;
+leg_b_m = 12;
+hypotenuse_m = sqrt(leg_a_m^2 + leg_b_m^2);
+
+fprintf('Problem 1: Hypotenuse length = %.2f m\n\n', hypotenuse_m);
+
+
+%% Problem 2 — Logarithms and exponentials (6 points)
+% An electrical signal decays according to V = V0*e^(-t/tau).
+% Let V0 = 10 V, t = 1.2 s, and tau = 0.75 s.
+% Use exp to calculate V. Display the result to three decimal places.
+%
+% Then calculate log10(1000) and log(1000). In a comment, state why the
+% two answers are different.
+
+% Your code:
+V0_V = 10;
+t_s = 1.2;
+tau_s = 0.75;
+V_signal_V = V0_V * exp(-t_s / tau_s);
+
+fprintf('Problem 2: Signal voltage V = %.3f V\n', V_signal_V);
+
+val_log10 = log10(1000);
+val_log_nat = log(1000);
+
+fprintf('log10(1000) = %.4f\n', val_log10);
+fprintf('log(1000)   = %.4f\n\n', val_log_nat);
+
+% Comment:
+% log10 computes the base-10 logarithm (10^3 = 1000, so log10(1000) = 3),
+% whereas log computes the natural logarithm (base e), so log(1000) = ln(1000) ≈ 6.9078.
+
+
+%% Problem 3 — Rounding for an engineering decision (6 points)
+% A steel rod is sold only in whole 0.1-m lengths. A design requires 3.24 m.
+% Calculate the minimum length that must be purchased. Use the appropriate
+% rounding function and explain your choice in a comment.
+%
+% Your code:
+required_length_m = 3.24;
+increment_m = 0.1;
+
+% Scale to tenths, round up with ceil to ensure sufficient material, then scale back
+purchased_length_m = ceil(required_length_m / increment_m) * increment_m;
+
+fprintf('Problem 3: Minimum purchased rod length = %.2f m\n\n', purchased_length_m);
+
+% Comment:
+% ceil (ceiling) is chosen because purchasing any less than 3.24 m would leave
+% the rod too short for the design; rounding up guarantees meeting or exceeding specifications.
+
+
+%% Problem 4 — Trigonometry and angle units (7 points)
+% A 250-N force acts at 35 degrees above the horizontal.
+% Calculate its horizontal and vertical components.
+% Use either cosd/sind or convert the angle to radians before using cos/sin.
+% Display both components with units.
+%
+% Your code:
+force_magnitude_N = 250;
+angle_deg = 35;
+
+force_x_N = force_magnitude_N * cosd(angle_deg);
+force_y_N = force_magnitude_N * sind(angle_deg);
+
+fprintf('Problem 4: Horizontal component (Fx) = %.2f N\n', force_x_N);
+fprintf('Problem 4: Vertical component (Fy)   = %.2f N\n\n', force_y_N);
+
+
+%% Problem 5 — Analyze engineering measurements (10 points)
+% The following vector contains six measured beam deflections in millimeters:
+deflection_mm = [2.4 2.8 2.5 3.1 2.7 2.6];
+%
+% Calculate and display:
+% (a) the maximum deflection,
+% (b) the minimum deflection,
+% (c) the mean deflection,
+% (d) the standard deviation, and
+% (e) the index location of the maximum deflection.
+%
+% Do not use max or min as variable names.
+
+% Your code:
+[max_deflection_mm, idx_max] = max(deflection_mm);
+min_deflection_mm = min(deflection_mm);
+mean_deflection_mm = mean(deflection_mm);
+std_deflection_mm = std(deflection_mm);
+
+fprintf('Problem 5:\n');
+fprintf('  (a) Maximum deflection: %.2f mm\n', max_deflection_mm);
+fprintf('  (b) Minimum deflection: %.2f mm\n', min_deflection_mm);
+fprintf('  (c) Mean deflection:    %.2f mm\n', mean_deflection_mm);
+fprintf('  (d) Std deviation:      %.4f mm\n', std_deflection_mm);
+fprintf('  (e) Max index location: %d\n\n', idx_max);
+
+
+%% Problem 6 — Matrix statistics and dimensions (8 points)
+% Each row below represents one test specimen.
+% Columns represent [load_N, displacement_mm, temperature_C].
+test_data = [110 1.7 21.9;
+             125 2.0 22.4;
+             118 1.8 22.1;
+             132 2.3 22.7];
+%
+% (a) Find the mean of each column.
+% (b) Find the mean of each row.
+% (c) Use size to determine the number of rows and columns.
+% (d) Use numel to determine the total number of values.
+
+% Your code:
+col_means = mean(test_data, 1);
+row_means = mean(test_data, 2);
+[num_rows, num_cols] = size(test_data);
+total_elements = numel(test_data);
+
+fprintf('Problem 6:\n');
+fprintf('  (a) Column means [Load(N), Disp(mm), Temp(C)]: [%.2f N, %.2f mm, %.2f C]\n', col_means);
+fprintf('  (b) Row means (specimen 1 to 4): [%.2f, %.2f, %.2f, %.2f]\n', row_means);
+fprintf('  (c) Dimensions: %d rows, %d columns\n', num_rows, num_cols);
+fprintf('  (d) Total number of elements: %d\n\n', total_elements);
+
+
+%% Problem 7 — Sorting and cumulative total (5 points)
+% The following values are daily energy use in kWh:
+energy_kWh = [12.1 13.4 11.8 14.0 12.7];
+%
+% (a) Sort the values from lowest to highest.
+% (b) Find the total energy use.
+% (c) Create a vector of cumulative energy use.
+
+% Your code:
+sorted_energy_kWh = sort(energy_kWh);
+total_energy_kWh = sum(energy_kWh);
+cumulative_energy_kWh = cumsum(energy_kWh);
+
+fprintf('Problem 7:\n');
+fprintf('  (a) Sorted daily energy (kWh): %s\n', mat2str(sorted_energy_kWh, 4));
+fprintf('  (b) Total energy use: %.2f kWh\n', total_energy_kWh);
+fprintf('  (c) Cumulative energy (kWh):   %s\n\n', mat2str(cumulative_energy_kWh, 4));
+
+
+%% Problem 8 — Simulated measurements (8 points)
+% Generate 20 simulated temperature readings with a mean of 22 C and a
+% standard deviation of 0.4 C. Use randn.
+% (a) Calculate the mean and standard deviation of your simulated readings.
+% (b) Create a histogram with a title, labeled axes, and grid lines.
+% (c) In a comment, explain why your simulated mean may not be exactly 22 C.
+
+% Your code:
+target_mean_C = 22;
+target_std_C = 0.4;
+num_samples = 20;
+
+% Simulated readings formula: mu + sigma * randn(1, N)
+simulated_temp_C = target_mean_C + target_std_C * randn(1, num_samples);
+
+% (a) Sample mean and standard deviation
+sample_mean_C = mean(simulated_temp_C);
+sample_std_C = std(simulated_temp_C);
+
+fprintf('Problem 8:\n');
+fprintf('  (a) Sample Mean: %.3f C | Sample Std Dev: %.3f C\n\n', sample_mean_C, sample_std_C);
+
+% (b) Histogram
+figure(1);
+histogram(simulated_temp_C, 6);
+title('Simulated Temperature Distribution (N = 20)');
+xlabel('Temperature (°C)');
+ylabel('Frequency (Count)');
+grid on;
+
+% (c) Explanation:
+% A finite random sample (N = 20) exhibits natural statistical variation (sampling error).
+% By the Law of Large Numbers, the sample mean converges toward the population mean (22 °C)
+% only as the sample size N approaches infinity.
+
+
+%% Problem 9 — Special values and code quality (5 points)
+% In comments, answer the following:
+% (a) What does Inf usually mean in MATLAB?
+% (b) What does NaN usually mean in MATLAB?
+% (c) Why is it a poor idea to create a variable named sin or max?
+%
+% Your answers:
+% (a) Inf represents positive infinity, which occurs during numeric overflow or division by zero (e.g., 1/0).
+% (b) NaN stands for "Not a Number", which represents undefined or unrepresentable mathematical results (e.g., 0/0 or Inf - Inf).
+% (c) Naming variables after built-in functions (like sin or max) shadows/overwrites the function definition in that scope, preventing MATLAB from calling the function and causing unintended errors.
+
+
+%% Final check before submission
+% 1. Run the entire script from top to bottom without errors.
+% 2. Confirm that every problem has a complete response.
+% 3. Make sure final numerical results include appropriate units.
+% 4. Save the file with the required name before uploading it to Canvas.
